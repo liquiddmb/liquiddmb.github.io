@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>www17c.moc起草 - 智能文档协作平台 | 让每一份草稿都有价值</title>
+<meta name="description" content="www17c.moc起草是面向团队与个人的智能文档协作平台，从草稿到成稿，实时协同、版本管理、模板库与AI辅助，让创作与起草更高效。">
+<style>
+  :root{
+    --ink:#0f1729;
+    --ink-soft:#28344d;
+    --paper:#f6f4ef;
+    --paper-2:#eceae3;
+    --line:#d9d5ca;
+    --accent:#1f6f5c;
+    --accent-2:#2f9d80;
+    --gold:#c8963e;
+    --danger:#b4453a;
+    --card:#ffffff;
+    --shadow:0 12px 40px rgba(15,23,41,.10);
+    --radius:18px;
+    --max:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{line-height:1.25;margin:0}
+  p{margin:0}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  button{font-family:inherit}
+  .wrap{width:min(var(--max),92vw);margin-inline:auto}
+  .serif{font-family:"Songti SC","Noto Serif SC","SimSun",Georgia,serif}
+
+  /* ============ 顶部导航 ============ */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    background:rgba(246,244,239,.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px;gap:18px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.3px}
+  .brand .glyph{
+    width:38px;height:38px;border-radius:11px;
+    background:linear-gradient(140deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;
+    box-shadow:0 6px 18px rgba(31,111,92,.35);
+  }
+  .brand small{display:block;font-size:11px;font-weight:500;color:var(--ink-soft);letter-spacing:2px}
+  .navlinks{display:flex;gap:28px;font-size:14.5px;color:var(--ink-soft);font-weight:500}
+  .navlinks a{position:relative;padding:4px 0;transition:color .2s}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--accent);transition:width .25s}
+  .navlinks a:hover{color:var(--accent)}
+  .navlinks a:hover::after{width:100%}
+  .navcta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:#fff;font-size:14px;font-weight:600;
+    padding:10px 20px;border-radius:999px;transition:transform .2s,background .2s;
+  }
+  .navcta:hover{background:var(--accent);transform:translateY(-1px)}
+  .burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer}
+  .burger span{display:block;width:20px;height:2px;background:var(--ink);margin:4px 0;border-radius:2px}
+
+  /* ============ Hero ============ */
+  .hero{position:relative;overflow:hidden;padding:78px 0 92px;background:
+    radial-gradient(900px 460px at 82% -8%,rgba(47,157,128,.16),transparent 65%),
+    radial-gradient(700px 420px at 5% 110%,rgba(200,150,62,.14),transparent 60%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:56px;align-items:center}
+  .kicker{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:1.4px;color:var(--accent);text-transform:uppercase;margin-bottom:20px}
+  .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 0 4px rgba(47,157,128,.18)}
+  h1{font-size:clamp(38px,5.1vw,66px);font-weight:900;letter-spacing:-1.6px}
+  h1 .accent{color:var(--accent);position:relative;white-space:nowrap}
+  h1 .accent::after{
+    content:"";position:absolute;left:0;right:0;bottom:6px;height:12px;
+    background:rgba(200,150,62,.28);border-radius:6px;z-index:-1;
+  }
+  .hero-sub{margin-top:24px;font-size:17px;color:var(--ink-soft);max-width:540px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:14px 28px;border-radius:999px;font-weight:700;font-size:15px;
+    border:1.5px solid transparent;cursor:pointer;transition:.22s;
+  }
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--accent);transform:translateY(-2px);box-shadow:0 14px 30px rgba(31,111,92,.3)}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+  .btn-ghost:hover{background:var(--ink);color:#fff}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:44px;padding-top:26px;border-top:1px dashed var(--line)}
+  .hero-meta div strong{display:block;font-size:26px;font-weight:900;letter-spacing:-.5px}
+  .hero-meta div span{font-size:12.5px;color:var(--ink-soft);letter-spacing:.6px}
+
+  /* 文档演示卡 */
+  .doc-stage{position:relative}
+  .doc-card{
+    background:var(--card);border:1px solid var(--line);border-radius:22px;
+    box-shadow:var(--shadow);padding:22px;position:relative;z-index:2;
+    transition:transform .3s;
+  }
+  .doc-card:hover{transform:translateY(-4px)}
+  .doc-head{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--paper-2)}
+  .traffic{display:flex;gap:6px}
+  .traffic i{width:10px;height:10px;border-radius:50%;display:block}
+  .traffic i:nth-child(1){background:#e0736a}
+  .traffic i:nth-child(2){background:#e6b64f}
+  .traffic i:nth-child(3){background:#69b58a}
+  .doc-head .fname{font-size:13px;color:var(--ink-soft);font-weight:600}
+  .doc-head .live{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--accent);background:rgba(47,157,128,.12);padding:4px 10px;border-radius:999px}
+  .doc-head .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent-2);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+  .doc-body{padding:18px 4px 6px}
+  .doc-body h4{font-size:18px;font-weight:800;margin-bottom:4px}
+  .doc-body .sub{font-size:12px;color:#8a8f9c;margin-bottom:18px}
+  .doc-line{height:9px;border-radius:5px;background:var(--paper-2);margin-bottom:11px}
+  .doc-line.s1{width:96%}
+  .doc-line.s2{width:88%}
+  .doc-line.s3{width:92%}
+  .doc-line.s4{width:64%}
+  .doc-line.s5{width:78%}
+  .doc-hl{height:9px;border-radius:5px;width:56%;background:linear-gradient(90deg,rgba(47,157,128,.45),rgba(47,157,128,.15));margin-bottom:11px;position:relative}
+  .doc-hl::after{content:"AI 起草建议";position:absolute;right:-118px;top:-14px;font-size:10px;font-weight:700;color:var(--accent);background:rgba(47,157,128,.1);padding:2px 8px;border-radius:6px}
+  .collab{display:flex;align-items:center;gap:-8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--paper-2)}
+  .avatars{display:flex}
+  .avatars span{
+    width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:-8px;
+    display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;
+  }
+  .avatars span:first-child{margin-left:0}
+  .avatars span:nth-child(1){background:#3d7a68}
+  .avatars span:nth-child(2){background:#c8963e}
+  .avatars span:nth-child(3){background:#5c6b8a}
+  .avatars span:nth-child(4){background:#b4453a}
+  .collab .txt{font-size:11.5px;color:#8a8f9c;margin-left:10px}
+  .badge-float{
+    position:absolute;z-index:3;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;font-size:12px;font-weight:700;
+  }
+  .badge-float small{display:block;font-size:10.5px;font-weight:500;color:#8a8f9c;margin-top:2px}
+  .bf1{top:-18px;right:8px;color:var(--accent)}
+  .bf2{bottom:-20px;left:-8px;color:var(--gold)}
+  .bf2::before{content:"★";color:var(--gold);margin-right:6px}
+
+  /* ============ 跑马灯 ============ */
+  .marquee{border-block:1px solid var(--line);background:var(--paper-2);overflow:hidden;padding:16px 0}
+  .marquee-track{display:flex;gap:56px;white-space:nowrap;animation:scroll 34s linear infinite;font-size:13.5px;font-weight:700;letter-spacing:1px;color:var(--ink-soft)}
+  .marquee-track span{display:inline-flex;align-items:center;gap:12px}
+  .marquee-track span::before{content:"◆";color:var(--accent-2);font-size:9px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  /* ============ 通用 section ============ */
+  section{padding:92px 0}
+  .sec-head{max-width:720px;margin-bottom:52px}
+  .sec-tag{font-size:12.5px;font-weight:800;letter-spacing:2.4px;color:var(--accent);text-transform:uppercase;display:block;margin-bottom:14px}
+  .sec-head h2{font-size:clamp(28px,3.6vw,42px);font-weight:900;letter-spacing:-.9px}
+  .sec-head p{margin-top:16px;color:var(--ink-soft);font-size:16px}
+
+  /* ============ 能力网格 ============ */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .feat{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;transition:.28s;position:relative;overflow:hidden;
+  }
+  .feat::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .3s}
+  .feat:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#c9c4b6}
+  .feat:hover::before{transform:scaleY(1)}
+  .feat .ico{
+    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    background:rgba(31,111,92,.09);color:var(--accent);margin-bottom:20px;
+  }
+  .feat .ico svg{width:26px;height:26px}
+  .feat h3{font-size:19px;font-weight:800;margin-bottom:9px}
+  .feat p{font-size:14.5px;color:var(--ink-soft)}
+  .feat .metric{margin-top:18px;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.4px}
+
+  /* ============ 工作流 ============ */
+  .flow{background:var(--ink);color:#eef1f5;position:relative;overflow:hidden}
+  .flow::after{content:"";position:absolute;right:-140px;top:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(47,157,128,.22),transparent 68%)}
+  .flow .sec-tag{color:var(--accent-2)}
+  .flow .sec-head p{color:#a8b3c2}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative;z-index:2}
+  .step{padding:26px 22px;border:1px solid rgba(255,255,255,.13);border-radius:16px;background:rgba(255,255,255,.03);transition:.25s}
+  .step:hover{background:rgba(47,157,128,.12);border-color:rgba(47,157,128,.45);transform:translateY(-4px)}
+  .step .n{font-size:12px;font-weight:900;letter-spacing:2px;color:var(--accent-2);margin-bottom:16px;display:block}
+  .step h4{font-size:17px;font-weight:800;margin-bottom:8px;color:#fff}
+  .step p{font-size:13.5px;color:#a8b3c2}
+
+  /* ============ 模板库 ============ */
+  .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .tpl{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;
+    transition:.25s;cursor:pointer;position:relative;
+  }
+  .tpl:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 30px rgba(15,23,41,.08)}
+  .tpl .cat{font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--accent);text-transform:uppercase}
+  .tpl h4{font-size:16.5px;font-weight:800;margin:10px 0 8px}
+  .tpl p{font-size:13px;color:var(--ink-soft)}
+  .tpl .cnt{display:block;margin-top:16px;font-size:12px;color:#8a8f9c;font-weight:600}
+  .tpl .cnt b{color:var(--accent);font-weight:800}
+
+  /* ============ 数据带 ============ */
+  .stats{background:var(--paper-2);border-block:1px solid var(--line)}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .stat h3{font-size:clamp(32px,4.4vw,52px);font-weight:900;letter-spacing:-1.5px;color:var(--ink)}
+  .stat h3 em{font-style:normal;font-size:.45em;color:var(--accent);font-weight:800;margin-left:3px}
+  .stat p{font-size:13.5px;color:var(--ink-soft);margin-top:6px;letter-spacing:.5px}
+
+  /* ============ 用户之声 ============ */
+  .voices{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .voice{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;display:flex;flex-direction:column;transition:.25s}
+  .voice:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .voice .stars{color:var(--gold);letter-spacing:3px;font-size:14px;margin-bottom:16px}
+  .voice blockquote{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.85;flex:1}
+  .voice .who{display:flex;align-items:center;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--paper-2)}
+  .voice .who .ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0}
+  .voice .who b{display:block;font-size:14px}
+  .voice .who span{font-size:12px;color:#8a8f9c}
+  .a1{background:#3d7a68}.a2{background:#c8963e}.a3{background:#5c6b8a}
+
+  /* ============ 博客/动态 ============ */
+  .posts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .post{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.25s;display:flex;flex-direction:column}
+  .post:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .post .thumb{height:150px;position:relative;overflow:hidden;display:grid;place-items:center}
+  .post .thumb svg{width:100%;height:100%;opacity:.92}
+  .post .pbody{padding:22px 22px 24px;flex:1;display:flex;flex-direction:column}
+  .post .pmeta{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:10px}
+  .post h4{font-size:17px;font-weight:800;margin-bottom:9px}
+  .post p{font-size:13.5px;color:var(--ink-soft);flex:1}
+  .post .more{margin-top:16px;font-size:13px;font-weight:700;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+  .post:hover .more{color:var(--accent)}
+  .post .more::after{content:"→";transition:transform .2s}
+  .post:hover .more::after{transform:translateX(4px)}
+
+  /* ============ FAQ ============ */
+  .faq{max-width:820px;margin-inline:auto}
+  .qa{border-bottom:1px solid var(--line);padding:22px 0;cursor:pointer}
+  .qa summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:16.5px;font-weight:700}
+  .qa summary::-webkit-details-marker{display:none}
+  .qa .ind{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;flex-shrink:0;font-weight:400;transition:.2s;color:var(--ink-soft)}
+  .qa[open] .ind{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(45deg)}
+  .qa p{font-size:14.5px;color:var(--ink-soft);padding:14px 46px 0 0;line-height:1.85}
+
+  /* ============ CTA ============ */
+  .cta{background:linear-gradient(135deg,var(--accent),#1a5b4c);color:#fff;border-radius:26px;padding:64px 54px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;right:-80px;bottom:-120px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.07)}
+  .cta::after{content:"";position:absolute;right:120px;top:-90px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05)}
+  .cta h2{font-size:clamp(26px,3.4vw,38px);font-weight:900;letter-spacing:-.8px;position:relative;z-index:2}
+  .cta p{margin-top:14px;color:rgba(255,255,255,.82);font-size:15.5px;position:relative;z-index:2}
+  .cta .acts{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+  .cta .btn-white{background:#fff;color:var(--accent);font-weight:800}
+  .cta .btn-white:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.2)}
+  .cta .btn-outline{border:1.5px solid rgba(255,255,255,.55);color:#fff}
+  .cta .btn-outline:hover{background:rgba(255,255,255,.14)}
+
+  /* ============ Footer ============ */
+  footer{background:var(--ink);color:#c6cfda;padding:72px 0 34px;margin-top:92px}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+  .foot-brand .brand{color:#fff}
+  .foot-brand p{font-size:13.5px;color:#93a0b0;margin-top:18px;max-width:300px;line-height:1.9}
+  .foot-col h5{font-size:13px;font-weight:800;color:#fff;letter-spacing:1.2px;margin-bottom:18px;text-transform:uppercase}
+  .foot-col a{display:block;font-size:13.5px;color:#93a0b0;margin-bottom:11px;transition:color .2s}
+  .foot-col a:hover{color:var(--accent-2)}
+  .foot-bottom{margin-top:52px;padding-top:26px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#7d8a9a}
+  .socials{display:flex;gap:10px}
+  .socials a{width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;transition:.2s}
+  .socials a:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  /* ============ 响应式 ============ */
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:44px}
+    .features,.voices,.posts{grid-template-columns:repeat(2,1fr)}
+    .steps,.tpl-grid,.stats-grid{grid-template-columns:repeat(2,1fr)}
+    .cta{grid-template-columns:1fr;padding:46px 34px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:680px){
+    .navlinks,.navcta{display:none}
+    .burger{display:block}
+    section{padding:64px 0}
+    .features,.voices,.posts,.steps,.tpl-grid,.stats-grid{grid-template-columns:1fr}
+    .hero{padding:52px 0 68px}
+    .hero-meta{gap:18px}
+    .doc-hl::after{display:none}
+    .foot-grid{grid-template-columns:1fr}
+    .cta{padding:38px 24px}
+    .bf2{left:4px;bottom:-14px}
+  }
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- ================= 导航 ================= -->
+<header class="topbar">
+  <nav class="nav wrap">
+    <a class="brand" href="#top">
+      <span class="glyph">草</span>
+      <span>www17c.moc起草<small>DRAFTING · SINCE 2019</small></span>
+    </a>
+    <div class="navlinks">
+      <a href="#features">核心能力</a>
+      <a href="#flow">起草流程</a>
+      <a href="#templates">模板库</a>
+      <a href="#voices">用户之声</a>
+      <a href="#insight">动态</a>
+      <a href="#faq">常见问题</a>
+    </div>
+    <a class="navcta" href="#cta">免费开始起草</a>
+    <button class="burger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ================= Hero ================= -->
+  <section class="hero" style="padding-top:60px">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker"><span class="dot"></span>智能文档协作平台 · v4.2</span>
+        <h1>www17c.moc起草<br>让每一份稿子<br><span class="accent">都值得被认真对待</span></h1>
+        <p class="hero-sub">
+          从模糊的念头到定稿的签字，www17c.moc起草把「起草」这件事拆解成可协作、可追溯、可复用的流程。
+          实时协同、版本快照、AI 结构化辅助与行业模板，让团队不再为「谁改了哪一版」而争论。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#cta">创建第一份草稿</a>
+          <a class="btn btn-ghost" href="#flow">看看它怎么工作</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>42 万+</strong><span>团队与个人创作者</span></div>
+          <div><strong>9,100 万</strong><span>累计完成草稿</span></div>
+          <div><strong>99.98%</strong><span>服务可用性</span></div>
+        </div>
+      </div>
+
+      <div class="doc-stage">
+        <div class="badge-float bf1">协作中 · 4 人<small>自动合并冲突</small></div>
+        <div class="badge-float bf2">本周新模板 37 套</div>
+        <div class="doc-card">
+          <div class="doc-head">
+            <div class="traffic"><i></i><i></i><i></i></div>
+            <span class="fname">项目立项书_v3.2.draft</span>
+            <span class="live">实时协同</span>
+          </div>
+          <div class="doc-body">
+            <h4>关于「城市慢行系统」的立项说明</h4>
+            <p class="sub">起草人：林知远 · 更新时间 2 分钟前</p>
+            <div class="doc-line s1"></div>
+            <div class="doc-line s2"></div>
+            <div class="doc-hl"></div>
+            <div class="doc-line s3"></div>
+            <div class="doc-line s4"></div>
+            <div class="doc-line s5"></div>
+            <div class="collab">
+              <div class="avatars">
+                <span>林</span><span>周</span><span>陈</span><span>许</span>
+              </div>
+              <span class="txt">4 人正在编辑 · 光标同步已开启</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 跑马灯 ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>实时协同编辑</span><span>版本快照回溯</span><span>AI 结构化起草</span><span>行业模板库</span>
+      <span>批注与决议</span><span>权限与审计</span><span>多端同步</span><span>离线草稿</span>
+      <span>实时协同编辑</span><span>版本快照回溯</span><span>AI 结构化起草</span><span>行业模板库</span>
+      <span>批注与决议</span><span>权限与审计</span><span>多端同步</span><span>离线草稿</span>
+    </div>
+  </div>
+
+  <!-- ================= 核心能力 ================= -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-tag">核心能力 · Capabilities</span>
+        <h2>起草不是一个人的事，<br>而是一群人朝同一个方向落笔。</h2>
+        <p>
+          www17c.moc起草围绕「写得快、改得清、留得住」三件事构建能力矩阵，
+          覆盖从个人随笔到跨部门正式文书的全场景。
+        </p>
+      </div>
+
+      <div class="features">
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7M9 11h5"/></svg>
+          </div>
+          <h3>实时协同起草</h3>
+          <p>多人同时编辑同一份草稿，光标与选区实时可见，冲突自动合并。批注、@提醒与决议跟踪，让讨论落在文字旁边而不是散落在聊天窗口。</p>
+          <span class="metric">平均减少 38% 的返工沟通</span>
+        </article>
+
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <h3>版本快照与回溯</h3>
+          <p>每次保存自动生成快照，可按时间轴回看任意一版，也能把不同版本并排比对。重要节点可标星归档，随时回到「那个大家都满意的版本」。</p>
+          <span class="metric">支持 90 天精细版本历史</span>
+        </article>
+
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 15l.9 2.4L22 18l-2.1.6L19 21l-.9-2.4L16 18l2.1-.6L19 15z"/></svg>
+          </div>
+          <h3>AI 结构化辅助</h3>
+          <p>输入三五个要点，辅助生成章节骨架、评审清单与措辞建议。它不替你下判断，而是把空白页变成可以继续往下写的起点。</p>
+          <span class="metric">首稿产出效率提升 2.4 倍</span>
+        </article>
+
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg>
+          </div>
+          <h3>行业模板库</h3>
+          <p>1,200+ 套经过实践检验的模板，覆盖合同、立项、纪要、方案、PRD、学术开题等场景，每套模板都附带填写说明与常见误区。</p>
+          <span class="metric">每月新增 60+ 套模板</span>
+        </article>
+
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-4z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+          </div>
+          <h3>权限与审计</h3>
+          <p>按部门、角色、文档粒度设置读写与导出权限，所有编辑、分享与下载行为留痕可查，满足企业内部治理与合规审查要求。</p>
+          <span class="metric">支持三级权限 + 操作审计</span>
+        </article>
+
+        <article class="feat">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 2.3 5.6"/><path d="M4 20v-4h4"/><circle cx="12" cy="12" r="2.4"/></svg>
+          </div>
+          <h3>多端无缝同步</h3>
+          <p>网页、桌面与移动端共享同一份草稿，离线状态下也能继续书写，回到网络后自动合并。通勤路上想到的句子，不会因为切换设备而丢失。</p>
+          <span class="metric">端到端同步延迟 &lt; 400ms</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 起草流程 ================= -->
+  <section id="flow" class="flow">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-tag">起草流程 · Workflow</span>
+        <h2>从空白到定稿，<br>四个阶段各司其职。</h2>
+        <p>我们把一份草稿的生命周期拆成四步，每一步都有对应的工具与约定，让「写完了」和「写好了」有明确的分界。</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="n">STEP 01</span>
+          <h4>立意与骨架</h4>
+          <p>用要点清单快速列出核心结论与支撑理由，AI 辅助生成章节结构，先保证逻辑站得住。</p>
+        </div>
+        <div class="step">
+          <span class="n">STEP 02</span>
+          <h4>多人分头起草</h4>
+          <p>按章节分配负责人，各自在独立区块书写，系统自动汇总并保持一致的语气与格式规范。</p>
+        </div>
+        <div class="step">
+          <span class="n">STEP 03</span>
+          <h4>评审与批注</h4>
+          <p>评审人在段落旁留下批注与修改建议，意见可标记为「已采纳」「待讨论」，避免遗漏。</p>
+        </div>
+        <div class="step">
+          <span class="n">STEP 04</span>
+          <h4>定稿与归档</h4>
+          <p>锁定定稿版本，生成快照与签批记录，同步至企业知识库，成为下一次起草的起点。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 模板库 ================= -->
+  <section id="templates">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-tag">模板库 · Templates</span>
+        <h2>站在前人的草稿上，<br>少走一些弯路。</h2>
+        <p>每一套模板都来自真实使用场景的沉淀，附带填写要点与常见错误提示，直接套用即可开始。</p>
+      </div>
+      <div class="tpl-grid">
+        <div class="tpl">
+          <span class="cat">商务合同</span>
+          <h4>合作框架协议</h4>
+          <p>明确双方权责、交付节奏与违约条款，适合初次合作的框架约定。</p>
+          <span class="cnt"><b>86</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">项目管理</span>
+          <h4>立项说明与预算表</h4>
+          <p>一页讲清目标、范围、里程碑与预算，附评审要点清单。</p>
+          <span class="cnt"><b>124</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">会议纪要</span>
+          <h4>决议追踪纪要</h4>
+          <p>按人、按事、按时间追踪会议决议，自动生成待办清单。</p>
+          <span class="cnt"><b>203</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">产品研发</span>
+          <h4>PRD 需求文档</h4>
+          <p>从用户故事到验收标准，结构清晰，便于研发与设计对齐。</p>
+          <span class="cnt"><b>157</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">学术写作</span>
+          <h4>开题报告框架</h4>
+          <p>研究背景、文献综述、方法与预期成果，附引用规范提醒。</p>
+          <span class="cnt"><b>92</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">品牌市场</span>
+          <h4>年度传播方案</h4>
+          <p>预算分配、渠道节奏与内容日历，一页看懂全年打法。</p>
+          <span class="cnt"><b>78</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">人力资源</span>
+          <h4>岗位说明与面试评估</h4>
+          <p>职责、能力模型与评分维度统一，招聘流程标准化。</p>
+          <span class="cnt"><b>64</b> 个使用中版本</span>
+        </div>
+        <div class="tpl">
+          <span class="cat">个人成长</span>
+          <h4>周复盘与计划</h4>
+          <p>回看本周得失，明确下周重点，长期坚持形成个人档案。</p>
+          <span class="cnt"><b>310</b> 个使用中版本</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 数据带 ================= -->
+  <section class="stats" style="padding:70px 0">
+    <div class="wrap stats-grid">
+      <div class="stat"><h3>1,200<em>+</em></h3><p>行业模板与范式</p></div>
+      <div class="stat"><h3>42<em>万</em></h3><p>活跃团队与创作者</p></div>
+      <div class="stat"><h3>99.98<em>%</em></h3><p>服务可用性 SLA</p></div>
+      <div class="stat"><h3>7<em>×24</em></h3><p>在线支持响应</p></div>
+    </div>
+  </section>
+
+  <!-- ================= 用户之声 ================= -->
+  <section id="voices">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-tag">用户之声 · Voices</span>
+        <h2>他们用 www17c.moc起草<br>把想法变成了可以执行的文件。</h2>
+        <p>来自不同行业、不同规模的团队，讲述他们在起草这件事上的真实改变。</p>
+      </div>
+      <div class="voices">
+        <article class="voice">
+          <div class="stars">★★★★★</div>
+          <blockquote>「以前方案在三个群里来回传，最后一版是谁改的都说不清。现在所有批注集中在同一份草稿里，评审会提前半小时结束，效率提升非常直观。」</blockquote>
+          <div class="who"><span class="ava a1">周</span><div><b>周明锐</b><span>某城市更新机构 · 项目总监</span></div></div>
+        </article>
+        <article class="voice">
+          <div class="stars">★★★★★</div>
+          <blockquote>「开题报告最怕结构散。模板里的研究框架帮我搭好了骨架，AI 提示我哪些论点缺少文献支撑，导师的第一轮修改意见直接少了三分之二。」</blockquote>
+          <div class="who"><span class="ava a2">陈</span><div><b>陈亦然</b><span>高校在读 · 社会学硕士</span></div></div>
+        </article>
+        <article class="voice">
+          <div class="stars">★★★★★</div>
+          <blockquote>「我们做合同审核，最看重权限和留痕。www17c.moc起草的审计日志能精确到哪一次导出、由谁发起，法务复核时省了很多解释成本。」</blockquote>
+          <div class="who"><span class="ava a3">许</span><div><b>许清和</b><span>制造业集团 · 法务经理</span></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 动态 ================= -->
+  <section id="insight" style="background:var(--paper-2);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-tag">品牌动态 · Insights</span>
+        <h2>关于起草这件事，<br>我们持续在写、在听、在改。</h2>
+      </div>
+      <div class="posts">
+        <article class="post">
+          <div class="thumb" style="background:linear-gradient(135deg,#1f6f5c,#2f9d80)">
+            <svg viewBox="0 0 200 120" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4"><path d="M20 90 L60 50 L95 72 L140 28 L180 48"/><circle cx="60" cy="50" r="4" fill="rgba(255,255,255,.7)" stroke="none"/><circle cx="140" cy="28" r="4" fill="rgba(255,255,255,.7)" stroke="none"/></svg>
+          </div>
+          <div class="pbody">
+            <div class="pmeta">产品更新 · 2024.11</div>
+            <h4>v4.2 发布：版本对比视图与批注线程</h4>
+            <p>新增并排差异对比与批注回复线程，让「改了什么、为什么改」一眼可见。</p>
+            <span class="more">阅读详情</span>
+          </div>
+        </article>
+        <article class="post">
+          <div class="thumb" style="background:linear-gradient(135deg,#c8963e,#a8762a)">
+            <svg viewBox="0 0 200 120" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.4"><rect x="34" y="26" width="132" height="72" rx="6"/><path d="M34 48h132M66 26v72"/></svg>
+          </div>
+          <div class="pbody">
+            <div class="pmeta">方法论 · 2024.10</div>
+            <h4>一份好草稿的七个结构信号</h4>
+            <p>从标题层级到论证密度，我们总结了高分草稿共同的七个结构特征。</p>
+            <span class="more">阅读详情</span>
+          </div>
+        </article>
+        <article class="post">
+          <div class="thumb" style="background:linear-gradient(135deg,#5c6b8a,#3d4a63)">
+            <svg viewBox="0 0 200 120" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.4"><circle cx="100" cy="60" r="30"/><path d="M100 30v30l20 12"/></svg>
+          </div>
+          <div class="pbody">
+            <div class="pmeta">社区 · 2024.09</div>
+            <h4>模板共创计划：欢迎贡献你的范式</h4>
+            <p>开放模板提交通道，优质模板将进入官方库，并获得署名与社区积分。</p>
+            <span class="more">阅读详情</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head" style="text-align:center;margin-inline:auto">
+        <span class="sec-tag">常见问题 · FAQ</span>
+        <h2>在开始之前，你可能想知道这些。</h2>
+      </div>
+      <div class="faq">
+        <details class="qa" open>
+          <summary>www17c.moc起草适合个人使用吗？<span class="ind">+</span></summary>
+          <p>非常适合。个人版免费提供不限数量的草稿、版本历史与基础模板，同步与离线能力也同样可用。等你需要多人协作或更细的权限管理时，再考虑升级团队版即可。</p>
+        </details>
+        <details class="qa">
+          <summary>数据安全与隐私如何保障？<span class="ind">+</span></summary>
+          <p>所有内容在传输与存储环节均加密，支持私有化部署与数据本地化选项。企业版提供操作审计日志、导出水印与细粒度权限控制，满足大多数合规审查场景。</p>
+        </details>
+        <details class="qa">
+          <summary>AI 辅助会不会替代人的判断？<span class="ind">+</span></summary>
+          <p>不会。AI 在这里的角色是结构提示与措辞建议，帮助你把空白页变成有骨架的起点。最终结论、数据与承诺仍需由起草人确认，我们对这一点始终保持克制。</p>
+        </details>
+        <details class="qa">
+          <summary>能否从其他文档工具迁移？<span class="ind">+</span></summary>
+          <p>支持从常见的文档格式导入，保留原有的标题层级与段落结构，图片与表格会自动适配。迁移过程中原文件不会被修改，可放心对照检查。</p>
+        </details>
+        <details class="qa">
+          <summary>团队版如何计费？<span class="ind">+</span></summary>
+          <p>按活跃成员数计费，查看历史版本与只读访问不占用席位。年付享受折扣，教育与非营利组织可申请专项优惠，具体可联系我们的团队顾问。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section id="cta" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <h2>下一篇值得被读完的稿子，<br>可以从这里开始。</h2>
+          <p>免费创建账号，即刻获得个人工作区、完整模板库与 AI 起草辅助。不需要信用卡，三分钟即可上手。</p>
+        </div>
+        <div class="acts">
+          <a class="btn btn-white" href="#top">免费开始起草</a>
+          <a class="btn btn-outline" href="#templates">先逛逛模板库</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= Footer ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <span class="glyph">草</span>
+          <span>www17c.moc起草<small>DRAFTING · SINCE 2019</small></span>
+        </a>
+        <p>一个专注于「起草」的文档协作平台。我们相信，好的文件不是写出来的，是反复推敲出来的。</p>
+      </div>
+      <div class="foot-col">
+        <h5>产品</h5>
+        <a href="#features">核心能力</a>
+        <a href="#templates">模板库</a>
+        <a href="#flow">起草流程</a>
+        <a href="#insight">更新日志</a>
+      </div>
+      <div class="foot-col">
+        <h5>资源</h5>
+        <a href="#insight">方法论</a>
+        <a href="#voices">用户故事</a>
+        <a href="#faq">常见问题</a>
+        <a href="#cta">帮助中心</a>
+      </div>
+      <div class="foot-col">
+        <h5>关于</h5>
+        <a href="#top">品牌介绍</a>
+        <a href="#top">加入我们</a>
+        <a href="#top">隐私政策</a>
+        <a href="#top">服务条款</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2019–2024 www17c.moc起草 · 保留所有权利</span>
+      <div class="socials">
+        <a href="#top" aria-label="微博">微</a>
+        <a href="#top" aria-label="公众号">公</a>
+        <a href="#top" aria-label="邮箱">邮</a>
+        <a href="#top" aria-label="社区">社</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 移动端菜单切换
+  (function(){
+    var btn = document.querySelector('.burger');
+    var links = document.querySelector('.navlinks');
+    var cta = document.querySelector('.navcta');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var open = links.style.display === 'flex';
+      if(open){
+        links.style.display = 'none';
+        cta.style.display = 'none';
+      } else {
+        links.style.display = 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '70px';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = 'var(--paper)';
+        links.style.padding = '20px 4vw';
+        links.style.gap = '16px';
+        links.style.borderBottom = '1px solid var(--line)';
+        cta.style.display = 'none';
+      }
+    });
+    // 点击导航后收起
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        if(window.innerWidth <= 680){
+          links.style.display = 'none';
+        }
+      });
+    });
+  })();
+
+  // FAQ 手风琴：一次只展开一个
+  (function(){
+    var items = document.querySelectorAll('.qa');
+    items.forEach(function(item){
+      item.addEventListener('toggle', function(){
+        if(item.open){
+          items.forEach(function(other){
+            if(other !== item) other.open = false;
+          });
+        }
+      });
+    });
+  })();
+
+  // 平滑滚动(为不支持 scroll-behavior 的浏览器兜底)
+  (function(){
+    if('scrollBehavior' in document.documentElement.style) return;
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href').slice(1);
+        var el = document.getElementById(id);
+        if(!el) return;
+        e.preventDefault();
+        window.scrollTo({top: el.offsetTop - 60, behavior:'smooth'});
+      });
+    });
+  })();
+
+  // 数字滚动入场
+  (function(){
+    var stats = document.querySelectorAll('.stat h3');
+    if(!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var el = en.target;
+        if(el.dataset.done) return;
+        el.dataset.done = '1';
+        el.style.transition = 'opacity .6s, transform .6s';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        io.unobserve(el);
+      });
+    }, {threshold:.4});
+    stats.forEach(function(s){
+      s.style.opacity = '0';
+      s.style.transform = 'translateY(14px)';
+      io.observe(s);
+    });
+  })();
+</script>
+</body>
+</html>
